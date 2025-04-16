@@ -32,13 +32,13 @@ class DealService:
         :param bitrix_repository_factory: Фабрика репозиториев Bitrix24
         """
         self._deal_repository: BitrixDealRepository = cast(
-            "BitrixDealRepository",
-            bitrix_repository_factory.get_repository("deal"),
+            'BitrixDealRepository',
+            bitrix_repository_factory.get_repository('deal'),
         )
 
         self._contact_repository: BitrixContactRepository = cast(
-            "BitrixContactRepository",
-            bitrix_repository_factory.get_repository("contact"),
+            'BitrixContactRepository',
+            bitrix_repository_factory.get_repository('contact'),
         )
 
     async def get_deal_by_id(self, deal_id: int) -> Deal | None:
@@ -67,21 +67,21 @@ class DealService:
         filter_params: dict[str, Any] = {}
 
         if active_only:
-            filter_params["STAGE_ID"] = [
-                "C14:NEW",
-                "C14:PREPARATION",
-                "C14:EXECUTING",
+            filter_params['STAGE_ID'] = [
+                'C14:NEW',
+                'C14:PREPARATION',
+                'C14:EXECUTING',
             ]
 
         if contact_id:
-            filter_params["CONTACT_ID"] = contact_id
+            filter_params['CONTACT_ID'] = contact_id
 
         if company_id:
-            filter_params["COMPANY_ID"] = company_id
+            filter_params['COMPANY_ID'] = company_id
 
         return await self._deal_repository.list_entities(
             filter_params=filter_params,
-            order={"DATE_CREATE": "DESC"},
+            order={'DATE_CREATE': 'DESC'},
             limit=limit,
         )
 

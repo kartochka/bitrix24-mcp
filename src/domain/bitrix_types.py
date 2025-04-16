@@ -32,17 +32,17 @@ class BitrixMultiField:
     id: int | None = None
 
     @classmethod
-    def from_bitrix(cls, data: dict[str, Any]) -> "BitrixMultiField":
+    def from_bitrix(cls, data: dict[str, Any]) -> 'BitrixMultiField':
         """Создание объекта из данных Bitrix24.
 
         :param data: Словарь с данными из API Bitrix24
         :return: Объект мультиполя
         """
         return cls(
-            value=data.get("VALUE", ""),
-            value_type=data.get("VALUE_TYPE", ""),
-            type_id=data.get("TYPE_ID", ""),
-            id=int(data.get("ID")) if data.get("ID") else None,  # type: ignore[arg-type]
+            value=data.get('VALUE', ''),
+            value_type=data.get('VALUE_TYPE', ''),
+            type_id=data.get('TYPE_ID', ''),
+            id=int(data.get('ID')) if data.get('ID') else None,  # type: ignore[arg-type]
         )
 
     def to_bitrix(self) -> dict[str, Any]:
@@ -51,12 +51,12 @@ class BitrixMultiField:
         :return: Словарь для отправки в API
         """
         result = {
-            "VALUE": self.value,
-            "VALUE_TYPE": self.value_type,
-            "TYPE_ID": self.type_id,
+            'VALUE': self.value,
+            'VALUE_TYPE': self.value_type,
+            'TYPE_ID': self.type_id,
         }
         if self.id is not None:
-            result["ID"] = str(self.id)
+            result['ID'] = str(self.id)
         return result
 
     def __getitem__(self, key: str) -> str | int | None:
@@ -81,14 +81,14 @@ class BitrixDate(str):
         :param dt: Объект datetime
         :return: BitrixDate в формате YYYY-MM-DD
         """
-        return cls(dt.strftime("%Y-%m-%d"))
+        return cls(dt.strftime('%Y-%m-%d'))
 
     def to_datetime(self) -> datetime:
         """Преобразовать в объект datetime.
 
         :return: Объект datetime
         """
-        return datetime.strptime(str(self), "%Y-%m-%d").replace(
+        return datetime.strptime(str(self), '%Y-%m-%d').replace(
             tzinfo=UTC,
         )
 
@@ -105,7 +105,7 @@ class BitrixDateTime(str):
         :param dt: Объект datetime
         :return: BitrixDateTime в формате YYYY-MM-DD HH:MM:SS
         """
-        return cls(dt.strftime("%Y-%m-%d %H:%M:%S"))
+        return cls(dt.strftime('%Y-%m-%d %H:%M:%S'))
 
     def to_datetime(self) -> datetime:
         """Преобразовать в объект datetime.
@@ -114,5 +114,5 @@ class BitrixDateTime(str):
         """
         return datetime.strptime(
             str(self),
-            "%Y-%m-%d %H:%M:%S %z",
+            '%Y-%m-%d %H:%M:%S %z',
         ).replace(tzinfo=UTC)

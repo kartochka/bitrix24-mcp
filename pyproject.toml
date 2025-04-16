@@ -44,6 +44,7 @@ select = ["ALL"]
 exclude = ['tests/*']
 
 ignore = [
+  "A001",
   "A003",    # flake8-builtins - class attribute {name} is shadowing a python builtin
   "B010",    # flake8-bugbear - do not call setattr with a constant attribute value
   "D100",    # pydocstyle - missing docstring in public module
@@ -56,6 +57,10 @@ ignore = [
   "D107",    # pydocstyle - missing docstring in __init__
   "D202",    # pydocstyle - no blank lines allowed after function docstring
   "D205",    # pydocstyle - 1 blank line required between summary line and description
+  "D203",
+  "D211",
+  "D212",
+  "D213",
   "D415",    # pydocstyle - first line should end with a period, question mark, or exclamation point
   "E501",    # pycodestyle line too long, handled by ruff format
   "PLW2901", # pylint - for loop variable overwritten by assignment target
@@ -69,6 +74,9 @@ ignore = [
   "INP001",
   "BLE001",
   "ANN401",
+  "COM812",
+  "Q000",
+  "Q003",
 ]
 
 [tool.ruff.lint.flake8-annotations]

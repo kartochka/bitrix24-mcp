@@ -19,7 +19,7 @@ class BitrixEntity:
     additional_fields: dict[str, Any] = field(default_factory=dict)
 
     _bitrix_field_mapping: ClassVar[dict[str, str]] = {
-        "ID": "id",
+        'ID': 'id',
     }
 
     @classmethod
@@ -29,7 +29,7 @@ class BitrixEntity:
         :param data: Словарь с данными из API Bitrix24
         :return: Объект сущности
         """
-        if order_data := data.get("order0000000000"):
+        if order_data := data.get('order0000000000'):
             data = order_data
         entity_data = {}
         additional_fields: dict[str, Any] = {}
@@ -43,7 +43,7 @@ class BitrixEntity:
             **{k: v for k, v in data.items() if k not in cls._bitrix_field_mapping},
         }
 
-        entity_data["additional_fields"] = additional_fields
+        entity_data['additional_fields'] = additional_fields
 
         return cls(**entity_data)
 

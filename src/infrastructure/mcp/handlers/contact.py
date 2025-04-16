@@ -19,29 +19,29 @@ def register_contact_handlers(mcp_server: BitrixMCPServer) -> None:
     """
     mcp_server.add_tool(
         get_contact,
-        name="get_contact",
-        description="Получение информации о контакте по ID",
+        name='get_contact',
+        description='Получение информации о контакте по ID',
     )
 
     mcp_server.add_tool(
         search_contacts,
-        name="search_contacts",
-        description="Поиск контактов по имени, телефону или email",
+        name='search_contacts',
+        description='Поиск контактов по имени, телефону или email',
     )
 
     mcp_server.add_tool(
         list_contacts,
-        name="list_contacts",
-        description="Получение списка контактов с возможностью фильтрации",
+        name='list_contacts',
+        description='Получение списка контактов с возможностью фильтрации',
     )
 
     mcp_server.add_resource(
-        "contact://{contact_id}",
+        'contact://{contact_id}',
         get_contact_resource,
-        description="Получение данных контакта по ID",
+        description='Получение данных контакта по ID',
     )
 
-    logger.info("Зарегистрированы обработчики для работы с контактами")
+    logger.info('Зарегистрированы обработчики для работы с контактами')
 
 
 async def get_contact(
@@ -55,13 +55,13 @@ async def get_contact(
     contact_service = container.get(ContactService)
     contact = await contact_service.get_contact_by_id(contact_id)
     if not contact:
-        return json.dumps({"error": f"Контакт с ID={contact_id} не найден"})
+        return json.dumps({'error': f'Контакт с ID={contact_id} не найден'})
     return contact.to_str_json()
 
 
 async def search_contacts(
     query: str,
-    search_type: str = "name",
+    search_type: str = 'name',
     limit: int = 10,
 ) -> str:
     """Поиск контактов (инструмент).
@@ -73,20 +73,20 @@ async def search_contacts(
     """
     contact_service = container.get(ContactService)
 
-    if search_type not in ["name", "phone", "email"]:
+    if search_type not in ['name', 'phone', 'email']:
         return json.dumps(
             {
-                "error": "Недопустимый тип поиска. Используйте: name, phone или email",
+                'error': 'Недопустимый тип поиска. Используйте: name, phone или email',
             },
         )
 
     contacts = await contact_service.search_contacts(query, search_type, limit)
 
     result = {
-        "query": query,
-        "search_type": search_type,
-        "total": len(contacts),
-        "contacts": [json.loads(contact.to_str_json()) for contact in contacts],
+        'query': query,
+        'search_type': search_type,
+        'total': len(contacts),
+        'contacts': [json.loads(contact.to_str_json()) for contact in contacts],
     }
 
     return json.dumps(result)
@@ -107,12 +107,12 @@ async def list_contacts(
 
     filter_info = {}
     if company_id:
-        filter_info["company_id"] = company_id
+        filter_info['company_id'] = company_id
 
     result = {
-        "total": len(contacts),
-        "filters": filter_info,
-        "contacts": [json.loads(contact.to_str_json()) for contact in contacts],
+        'total': len(contacts),
+        'filters': filter_info,
+        'contacts': [json.loads(contact.to_str_json()) for contact in contacts],
     }
 
     return json.dumps(result)
@@ -130,11 +130,11 @@ async def get_contact_resource(
     try:
         contact_id_int = int(contact_id)
     except ValueError:
-        return f"Некорректный ID контакта: {contact_id}"
+        return f'Некорректный ID контакта: {contact_id}'
     contact = await contact_service.get_contact_by_id(contact_id_int)
 
     if not contact:
-        return f"Контакт с ID={contact_id} не найден"
+        return f'Контакт с ID={contact_id} не найден'
 
     return _format_contact_for_display(contact)
 
@@ -146,8 +146,8 @@ def _format_contact_for_display(contact: Contact) -> str:
     :return: Форматированная строка с данными контакта
     """
     lines = [
-        f"Контакт ID: {contact.id}",
-        f"Имя: {contact.get_full_name()}",
+        f'Контакт ID: {contact.id}',
+        f'Имя: {contact.get_full_name()}',
         f'Email: {contact.get_primary_email() or "Не указан"}',
         f'Телефон: {contact.get_primary_phone() or "Не указан"}',
         f'Компания ID: {contact.company_id or "Не указана"}',
@@ -155,4 +155,4 @@ def _format_contact_for_display(contact: Contact) -> str:
         f'Дата создания: {contact.date_create or "Неизвестно"}',
     ]
 
-    return "\n".join(lines)
+    return '\n'.join(lines)

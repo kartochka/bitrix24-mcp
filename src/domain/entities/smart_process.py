@@ -18,8 +18,8 @@ class SmartProcess(BitrixEntity):
     """
 
     type_id: int = 0
-    title: str = ""
-    stage_id: BitrixStageID = ""
+    title: str = ''
+    stage_id: BitrixStageID = ''
     company_id: BitrixID | None = None
     assigned_by_id: BitrixID | None = None
     created_by_id: BitrixID | None = None
@@ -30,16 +30,16 @@ class SmartProcess(BitrixEntity):
 
     # Расширенный маппинг полей Bitrix24 для смарт-процесса
     _bitrix_field_mapping: ClassVar[dict[str, str]] = {
-        "ID": "id",
-        "TITLE": "title",
-        "STAGE_ID": "stage_id",
-        "COMPANY_ID": "company_id",
-        "ASSIGNED_BY_ID": "assigned_by_id",
-        "CREATED_BY_ID": "created_by_id",
-        "MODIFY_BY_ID": "modified_by_id",
-        "DATE_CREATE": "date_create",
-        "DATE_MODIFY": "date_modify",
-        "TYPE_ID": "type_id",
+        'ID': 'id',
+        'TITLE': 'title',
+        'STAGE_ID': 'stage_id',
+        'COMPANY_ID': 'company_id',
+        'ASSIGNED_BY_ID': 'assigned_by_id',
+        'CREATED_BY_ID': 'created_by_id',
+        'MODIFY_BY_ID': 'modified_by_id',
+        'DATE_CREATE': 'date_create',
+        'DATE_MODIFY': 'date_modify',
+        'TYPE_ID': 'type_id',
     }
 
     @classmethod
@@ -92,7 +92,7 @@ class SmartProcess(BitrixEntity):
 
         if isinstance(self.contact_ids, str):
             self.contact_ids = [
-                int(iid) for iid in self.contact_ids.split(",") if iid.isdigit()
+                int(iid) for iid in self.contact_ids.split(',') if iid.isdigit()
             ]
 
     def is_active(self) -> bool:
@@ -107,4 +107,4 @@ class SmartProcess(BitrixEntity):
 
         :return: Строка с типом элемента для API
         """
-        return f"DYNAMIC_{self.type_id}"
+        return f'DYNAMIC_{self.type_id}'

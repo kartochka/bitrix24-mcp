@@ -18,10 +18,10 @@ from src.infrastructure.bitrix.mixins.relationship import (
 from src.infrastructure.bitrix.mixins.write import BitrixWriteMixin
 
 __all__ = [
-    "BitrixBatchOperationsMixin",
-    "BitrixFilterBuilderMixin",
-    "BitrixPaginationMixin",
-    "BitrixReadMixin",
-    "BitrixRelationshipMixin",
-    "BitrixWriteMixin",
+    'BitrixBatchOperationsMixin',
+    'BitrixFilterBuilderMixin',
+    'BitrixPaginationMixin',
+    'BitrixReadMixin',
+    'BitrixRelationshipMixin',
+    'BitrixWriteMixin',
 ]

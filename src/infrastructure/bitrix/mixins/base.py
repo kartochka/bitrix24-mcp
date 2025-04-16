@@ -52,35 +52,35 @@ class BaseMixin[T_Result]:
         try:
             return await func(*args, **kwargs)
         except ConnectionError:
-            logger.error(f"{error_context_message}: Ошибка соединения.")
+            logger.error(f'{error_context_message}: Ошибка соединения.')
             return default_value
         except TimeoutError:
             logger.error(
-                f"{error_context_message}: Превышено время ожидания ответа.",
+                f'{error_context_message}: Превышено время ожидания ответа.',
             )
             return default_value
         except ValueError as e:
-            logger.error(f"{error_context_message}: Некорректное значение: {e}")
+            logger.error(f'{error_context_message}: Некорректное значение: {e}')
             return default_value
         except KeyError as e:
             logger.error(
-                f"{error_context_message}: Отсутствует ожидаемый ключ: {e}",
+                f'{error_context_message}: Отсутствует ожидаемый ключ: {e}',
             )
             return default_value
         except TypeError as e:
-            logger.error(f"{error_context_message}: Ошибка типа: {e}")
+            logger.error(f'{error_context_message}: Ошибка типа: {e}')
             return default_value
         except AttributeError as e:
             logger.error(
-                f"{error_context_message}: Ошибка доступа к атрибуту: {e}",
+                f'{error_context_message}: Ошибка доступа к атрибуту: {e}',
             )
             return default_value
         except RuntimeError as e:
-            logger.error(f"{error_context_message}: Ошибка выполнения: {e}")
+            logger.error(f'{error_context_message}: Ошибка выполнения: {e}')
             return default_value
         except Exception as e:
             logger.exception(
-                f"{error_context_message}: Неожиданная ошибка: {e}",
+                f'{error_context_message}: Неожиданная ошибка: {e}',
                 exc_info=True,
             )
             return default_value
@@ -92,6 +92,6 @@ class BaseMixin[T_Result]:
         :param entity_class: Класс сущности
         :returns: Отформатированное имя сущности
         """
-        if hasattr(entity_class, "__name__"):
+        if hasattr(entity_class, '__name__'):
             return entity_class.__name__
         return str(entity_class)

@@ -17,14 +17,14 @@ class BitrixRelationshipMixin(BaseMixin):
     (контакты-компании, сделки-контакты и т.д.).
     """
 
-    _id_param_name: ClassVar[str] = "ID"
+    _id_param_name: ClassVar[str] = 'ID'
 
     async def add_relationship(
         self,
         method: str,
         entity_id: int,
         related_id: int,
-        field_name: str = "CONTACT_ID",
+        field_name: str = 'CONTACT_ID',
         error_message: str | None = None,
     ) -> bool:
         """Добавление связи между сущностями.
@@ -38,8 +38,8 @@ class BitrixRelationshipMixin(BaseMixin):
         """
         if not error_message:
             error_message = (
-                f"Ошибка при добавлении связи: "
-                f"сущность ID={entity_id}, связь ID={related_id}"
+                f'Ошибка при добавлении связи: '
+                f'сущность ID={entity_id}, связь ID={related_id}'
             )
 
         response = await self._safe_call(
@@ -47,21 +47,21 @@ class BitrixRelationshipMixin(BaseMixin):
             error_message,
             {},
             method=method,
-            items={"ID": entity_id, "fields": {field_name: related_id}},
+            items={'ID': entity_id, 'fields': {field_name: related_id}},
         )
 
-        if not response or "result" not in response:
-            logger.warning(f"{error_message}: получен некорректный ответ")
+        if not response or 'result' not in response:
+            logger.warning(f'{error_message}: получен некорректный ответ')
             return False
 
-        return bool(response.get("result"))
+        return bool(response.get('result'))
 
     async def remove_relationship(
         self,
         method: str,
         entity_id: int,
         related_id: int,
-        field_name: str = "CONTACT_ID",
+        field_name: str = 'CONTACT_ID',
         error_message: str | None = None,
     ) -> bool:
         """Удаление связи между сущностями.
@@ -75,8 +75,8 @@ class BitrixRelationshipMixin(BaseMixin):
         """
         if not error_message:
             error_message = (
-                f"Ошибка при удалении связи: "
-                f"сущность ID={entity_id}, связь ID={related_id}"
+                f'Ошибка при удалении связи: '
+                f'сущность ID={entity_id}, связь ID={related_id}'
             )
 
         response = await self._safe_call(
@@ -84,14 +84,14 @@ class BitrixRelationshipMixin(BaseMixin):
             error_message,
             {},
             method=method,
-            items={"ID": entity_id, "fields": {field_name: related_id}},
+            items={'ID': entity_id, 'fields': {field_name: related_id}},
         )
 
-        if not response or "result" not in response:
-            logger.warning(f"{error_message}: получен некорректный ответ")
+        if not response or 'result' not in response:
+            logger.warning(f'{error_message}: получен некорректный ответ')
             return False
 
-        return bool(response.get("result"))
+        return bool(response.get('result'))
 
     async def get_related_items(
         self,
@@ -108,7 +108,7 @@ class BitrixRelationshipMixin(BaseMixin):
         """
         if not error_message:
             error_message = (
-                f"Ошибка при получении связанных элементов: сущность ID={entity_id}"
+                f'Ошибка при получении связанных элементов: сущность ID={entity_id}'
             )
 
         response = await self._safe_call(
@@ -119,8 +119,8 @@ class BitrixRelationshipMixin(BaseMixin):
             items={self._id_param_name: entity_id},
             raw=True,
         )
-        if not response or "result" not in response:
-            logger.warning(f"{error_message}: получен некорректный ответ")
+        if not response or 'result' not in response:
+            logger.warning(f'{error_message}: получен некорректный ответ')
             return []
 
-        return response.get("result", [])
+        return response.get('result', [])

@@ -17,7 +17,7 @@ class Settings:
     """
 
     BITRIX_WEBHOOK_URL: str
-    LOG_LEVEL: str = "INFO"
+    LOG_LEVEL: str = 'INFO'
 
 
 class SettingsManager:
@@ -35,13 +35,13 @@ class SettingsManager:
         :raises ValueError: Если не указан URL вебхука.
         """
         if cls._instance is None:
-            webhook_url = os.getenv("BITRIX_WEBHOOK_URL")
-            log_level = os.getenv("LOG_LEVEL", "INFO")
+            webhook_url = os.getenv('BITRIX_WEBHOOK_URL')
+            log_level = os.getenv('LOG_LEVEL', 'INFO')
 
             if not webhook_url:
                 msg = (
-                    "Не указана переменная окружения BITRIX_WEBHOOK_URL. "
-                    "Пожалуйста, укажите URL вебхука Bitrix24.",
+                    'Не указана переменная окружения BITRIX_WEBHOOK_URL. '
+                    'Пожалуйста, укажите URL вебхука Bitrix24.',
                 )
                 raise ValueError(msg)
 

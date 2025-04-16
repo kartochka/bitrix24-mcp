@@ -20,35 +20,35 @@ def register_deal_handlers(mcp_server: BitrixMCPServer) -> None:
     """
     mcp_server.add_tool(
         get_deal,
-        name="get_deal",
-        description="Получение информации о сделке по ID",
+        name='get_deal',
+        description='Получение информации о сделке по ID',
     )
 
     mcp_server.add_tool(
         list_deals,
-        name="list_deals",
-        description="Получение списка сделок с возможностью фильтрации",
+        name='list_deals',
+        description='Получение списка сделок с возможностью фильтрации',
     )
 
     mcp_server.add_tool(
         update_deal_stage,
-        name="update_deal_stage",
-        description="Обновление стадии сделки",
+        name='update_deal_stage',
+        description='Обновление стадии сделки',
     )
 
     mcp_server.add_resource(
-        "deal://{deal_id}",
+        'deal://{deal_id}',
         get_deal_resource,
-        description="Получение данных сделки по ID",
+        description='Получение данных сделки по ID',
     )
 
     mcp_server.add_resource(
-        "deals://active",
+        'deals://active',
         get_active_deals_resource,
-        description="Получение списка активных сделок",
+        description='Получение списка активных сделок',
     )
 
-    logger.info("Зарегистрированы обработчики для работы со сделками")
+    logger.info('Зарегистрированы обработчики для работы со сделками')
 
 
 async def get_deal(
@@ -62,7 +62,7 @@ async def get_deal(
     deal_service = container.get(DealService)
     deal = await deal_service.get_deal_by_id(deal_id)
     if not deal:
-        return json.dumps({"error": f"Сделка с ID={deal_id} не найдена"})
+        return json.dumps({'error': f'Сделка с ID={deal_id} не найдена'})
     return deal.to_str_json()
 
 
@@ -90,18 +90,18 @@ async def list_deals(
         limit,
     )
 
-    filter_info: dict[str, Any] = {"active_only": active_only}
+    filter_info: dict[str, Any] = {'active_only': active_only}
 
     if contact_id:
-        filter_info["contact_id"] = contact_id
+        filter_info['contact_id'] = contact_id
 
     if company_id:
-        filter_info["company_id"] = company_id
+        filter_info['company_id'] = company_id
 
     result = {
-        "total": len(deals),
-        "filters": filter_info,
-        "deals": [json.loads(deal.to_str_json()) for deal in deals],
+        'total': len(deals),
+        'filters': filter_info,
+        'deals': [json.loads(deal.to_str_json()) for deal in deals],
     }
 
     return json.dumps(result)
@@ -121,8 +121,8 @@ async def update_deal_stage(
     success = await deal_service.update_deal_stage(deal_id, stage_id)
 
     result = {
-        "success": success,
-        "message": (
+        'success': success,
+        'message': (
             f'Стадия сделки ID={deal_id} '
             f'{"успешно обновлена" if success else "не обновлена"} на {stage_id}'
         ),
@@ -146,11 +146,11 @@ async def get_deal_resource(
         deal = await deal_service.get_deal_by_id(deal_id_int)
 
         if not deal:
-            return f"Сделка с ID={deal_id} не найдена"
+            return f'Сделка с ID={deal_id} не найдена'
 
         return _format_deal_for_display(deal)
     except ValueError:
-        return f"Некорректный ID сделки: {deal_id}"
+        return f'Некорректный ID сделки: {deal_id}'
 
 
 async def get_active_deals_resource() -> str:
@@ -163,17 +163,17 @@ async def get_active_deals_resource() -> str:
     deals = await deal_service.list_deals(active_only=True)
 
     if not deals:
-        return "Активные сделки не найдены"
+        return 'Активные сделки не найдены'
 
-    lines = [f"Активные сделки ({len(deals)}):"]
+    lines = [f'Активные сделки ({len(deals)}):']
 
     for i, deal in enumerate(deals, 1):
-        lines.append(f"{i}. {deal.title} (ID: {deal.id})")
-        lines.append(f"   Стадия: {deal.stage_id}")
-        lines.append(f"   Сумма: {deal.opportunity} {deal.currency_id}")
-        lines.append("")
+        lines.append(f'{i}. {deal.title} (ID: {deal.id})')
+        lines.append(f'   Стадия: {deal.stage_id}')
+        lines.append(f'   Сумма: {deal.opportunity} {deal.currency_id}')
+        lines.append('')
 
-    return "\n".join(lines)
+    return '\n'.join(lines)
 
 
 def _format_deal_for_display(deal: Deal) -> str:
@@ -183,10 +183,10 @@ def _format_deal_for_display(deal: Deal) -> str:
     :return: Форматированная строка с данными сделки
     """
     lines = [
-        f"Сделка ID: {deal.id}",
-        f"Название: {deal.title}",
-        f"Стадия: {deal.stage_id}",
-        f"Сумма: {deal.opportunity} {deal.currency_id}",
+        f'Сделка ID: {deal.id}',
+        f'Название: {deal.title}',
+        f'Стадия: {deal.stage_id}',
+        f'Сумма: {deal.opportunity} {deal.currency_id}',
         f'Компания ID: {deal.company_id or "Не указана"}',
         f'Ответственный: {deal.assigned_by_id or "Не назначен"}',
         f'Дата создания: {deal.date_create or "Неизвестно"}',
@@ -198,6 +198,6 @@ def _format_deal_for_display(deal: Deal) -> str:
             f'Связанные контакты: {", ".join(map(str, deal.contact_ids))}',
         )
     else:
-        lines.append("Связанные контакты: Отсутствуют")
+        lines.append('Связанные контакты: Отсутствуют')
 
-    return "\n".join(lines)
+    return '\n'.join(lines)

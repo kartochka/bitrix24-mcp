@@ -41,10 +41,10 @@ def main() -> None:
     settings = SettingsManager.init()
     configure_log_level(settings.LOG_LEVEL)
 
-    logger.info("Запуск MCP сервера")
+    logger.info('Запуск MCP сервера')
 
     server.run()
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()

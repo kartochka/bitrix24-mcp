@@ -37,17 +37,17 @@ class BitrixContactRepository(
     в соответствии с API Bitrix24.
     """
 
-    _entity_type: ClassVar[str] = "contact"
+    _entity_type: ClassVar[str] = 'contact'
 
-    _bitrix_list_method: ClassVar[str] = "crm.contact.list"
-    _bitrix_get_method: ClassVar[str] = "crm.contact.get"
-    _bitrix_create_method: ClassVar[str] = "crm.contact.add"
-    _bitrix_update_method: ClassVar[str] = "crm.contact.update"
-    _bitrix_delete_method: ClassVar[str] = "crm.contact.delete"
-    _bitrix_fields_method: ClassVar[str] = "crm.contact.fields"
+    _bitrix_list_method: ClassVar[str] = 'crm.contact.list'
+    _bitrix_get_method: ClassVar[str] = 'crm.contact.get'
+    _bitrix_create_method: ClassVar[str] = 'crm.contact.add'
+    _bitrix_update_method: ClassVar[str] = 'crm.contact.update'
+    _bitrix_delete_method: ClassVar[str] = 'crm.contact.delete'
+    _bitrix_fields_method: ClassVar[str] = 'crm.contact.fields'
     _entity_factory: type[Contact] = Contact
 
-    _company_items_method: ClassVar[str] = "crm.contact.company.items.get"
+    _company_items_method: ClassVar[str] = 'crm.contact.company.items.get'
 
     def __init__(self, bitrix: Bitrix):
         """Инициализация репозитория.
@@ -67,8 +67,8 @@ class BitrixContactRepository(
 
         try:
             filter_params = {
-                "$SEARCH": name,
-                "CHECK_PERMISSIONS": "N",
+                '$SEARCH': name,
+                'CHECK_PERMISSIONS': 'N',
             }
 
             return await self.list_entities(
@@ -76,7 +76,7 @@ class BitrixContactRepository(
                 limit=limit,
             )
         except Exception as e:
-            logger.error(f"{error_message}: {e}")
+            logger.error(f'{error_message}: {e}')
             return []
 
     async def search_by_phone(
@@ -94,8 +94,8 @@ class BitrixContactRepository(
 
         try:
             filter_params = {
-                "PHONE": phone,
-                "CHECK_PERMISSIONS": "N",
+                'PHONE': phone,
+                'CHECK_PERMISSIONS': 'N',
             }
 
             return await self.list_entities(
@@ -103,7 +103,7 @@ class BitrixContactRepository(
                 limit=limit,
             )
         except Exception as e:
-            logger.error(f"{error_message}: {e}")
+            logger.error(f'{error_message}: {e}')
             return []
 
     async def search_by_email(
@@ -121,8 +121,8 @@ class BitrixContactRepository(
 
         try:
             filter_params = {
-                "EMAIL": email,
-                "CHECK_PERMISSIONS": "N",
+                'EMAIL': email,
+                'CHECK_PERMISSIONS': 'N',
             }
 
             return await self.list_entities(
@@ -130,7 +130,7 @@ class BitrixContactRepository(
                 limit=limit,
             )
         except Exception as e:
-            logger.error(f"{error_message}: {e}")
+            logger.error(f'{error_message}: {e}')
             return []
 
     async def get_deal_contacts(self, deal_id: int) -> list[Contact]:
@@ -139,11 +139,11 @@ class BitrixContactRepository(
         :param deal_id: Идентификатор сделки
         :return: Список объектов контактов
         """
-        error_message = f"Ошибка при получении контактов сделки ID={deal_id}"
+        error_message = f'Ошибка при получении контактов сделки ID={deal_id}'
 
         try:
             contacts_result = await self.get_related_items(
-                "crm.deal.contact.items.get",
+                'crm.deal.contact.items.get',
                 deal_id,
                 error_message,
             )
@@ -151,11 +151,11 @@ class BitrixContactRepository(
             if not contacts_result:
                 return []
 
-            contact_ids = [int(contact["CONTACT_ID"]) for contact in contacts_result]
+            contact_ids = [int(contact['CONTACT_ID']) for contact in contacts_result]
 
             return await self._load_contacts_by_ids(contact_ids)
         except Exception as e:
-            logger.error(f"{error_message}: {e}")
+            logger.error(f'{error_message}: {e}')
             return []
 
     async def _load_contacts_by_ids(
@@ -170,12 +170,12 @@ class BitrixContactRepository(
         if not contact_ids:
             return []
 
-        error_message = f"Ошибка при загрузке контактов по ID: {contact_ids}"
+        error_message = f'Ошибка при загрузке контактов по ID: {contact_ids}'
 
         try:
             filter_params = {
-                "ID": contact_ids,
-                "CHECK_PERMISSIONS": "N",
+                'ID': contact_ids,
+                'CHECK_PERMISSIONS': 'N',
             }
 
             return await self.list_entities(
@@ -183,7 +183,7 @@ class BitrixContactRepository(
                 limit=len(contact_ids),
             )
         except Exception as e:
-            logger.error(f"{error_message}: {e}")
+            logger.error(f'{error_message}: {e}')
             return []
 
     async def get_contact_companies(
@@ -195,7 +195,7 @@ class BitrixContactRepository(
         :param contact_id: Идентификатор контакта
         :return: Список данных о компаниях
         """
-        error_message = f"Ошибка при получении компаний контакта ID={contact_id}"
+        error_message = f'Ошибка при получении компаний контакта ID={contact_id}'
 
         try:
             return await self.get_related_items(
@@ -204,5 +204,5 @@ class BitrixContactRepository(
                 error_message,
             )
         except Exception as e:
-            logger.error(f"{error_message}: {e}")
+            logger.error(f'{error_message}: {e}')
             return []

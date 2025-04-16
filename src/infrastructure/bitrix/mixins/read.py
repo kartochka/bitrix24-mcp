@@ -22,11 +22,11 @@ class BitrixReadMixin[T: BitrixEntity](BaseMixin):
     _bitrix_fields_method: ClassVar[str]
     _entity_factory: type[T]
 
-    _id_param_name: ClassVar[str] = "ID"
-    _filter_param_name: ClassVar[str] = "filter"
-    _select_param_name: ClassVar[str] = "select"
-    _order_param_name: ClassVar[str] = "order"
-    _start_param_name: ClassVar[str] = "start"
+    _id_param_name: ClassVar[str] = 'ID'
+    _filter_param_name: ClassVar[str] = 'filter'
+    _select_param_name: ClassVar[str] = 'select'
+    _order_param_name: ClassVar[str] = 'order'
+    _start_param_name: ClassVar[str] = 'start'
 
     async def get_by_id(self, entity_id: int) -> T | None:
         """Получение сущности по идентификатору.
@@ -35,8 +35,8 @@ class BitrixReadMixin[T: BitrixEntity](BaseMixin):
         :return: Объект сущности или None, если сущность не найдена
         """
         error_message = (
-            f"Ошибка при получении {self._format_entity_name(self._entity_factory)} "
-            f"с ID={entity_id}"
+            f'Ошибка при получении {self._format_entity_name(self._entity_factory)} '
+            f'с ID={entity_id}'
         )
 
         try:
@@ -49,17 +49,17 @@ class BitrixReadMixin[T: BitrixEntity](BaseMixin):
                 raw=True,
             )
 
-            if not response or "result" not in response:
-                logger.warning(f"{error_message}: получен некорректный ответ")
+            if not response or 'result' not in response:
+                logger.warning(f'{error_message}: получен некорректный ответ')
                 return None
 
-            result = response.get("result")
+            result = response.get('result')
             if not result:
                 return None
 
             return await self._process_entity(result)
         except Exception as e:
-            logger.error(f"{error_message}: {e}")
+            logger.error(f'{error_message}: {e}')
             return None
 
     async def list_entities(
@@ -80,8 +80,8 @@ class BitrixReadMixin[T: BitrixEntity](BaseMixin):
         :return: Список сущностей
         """
         error_message = (
-            f"Ошибка при получении списка сущностей "
-            f"{self._format_entity_name(self._entity_factory)}"
+            f'Ошибка при получении списка сущностей '
+            f'{self._format_entity_name(self._entity_factory)}'
         )
 
         try:
@@ -95,7 +95,7 @@ class BitrixReadMixin[T: BitrixEntity](BaseMixin):
             if select_fields:
                 params[self._select_param_name] = select_fields
             else:
-                params[self._select_param_name] = ["*", "UF_*"]
+                params[self._select_param_name] = ['*', 'UF_*']
 
             if order:
                 params[self._order_param_name] = order
@@ -108,7 +108,7 @@ class BitrixReadMixin[T: BitrixEntity](BaseMixin):
                 items=params,
                 raw=True,
             )
-            results = b_results.get("result", [])[:limit]
+            results = b_results.get('result', [])[:limit]
 
             results = results[:limit]
 
@@ -120,7 +120,7 @@ class BitrixReadMixin[T: BitrixEntity](BaseMixin):
                     entities.append(entity)
 
         except Exception as e:
-            logger.error(f"{error_message}: {e}")
+            logger.error(f'{error_message}: {e}')
             return []
         else:
             return entities
@@ -131,8 +131,8 @@ class BitrixReadMixin[T: BitrixEntity](BaseMixin):
         :return: Словарь с описанием полей сущности
         """
         error_message = (
-            f"Ошибка при получении описания полей сущности "
-            f"{self._format_entity_name(self._entity_factory)}"
+            f'Ошибка при получении описания полей сущности '
+            f'{self._format_entity_name(self._entity_factory)}'
         )
 
         response = await self._safe_call(
@@ -142,11 +142,11 @@ class BitrixReadMixin[T: BitrixEntity](BaseMixin):
             self._bitrix_fields_method,
         )
 
-        if not response or "result" not in response:
-            logger.warning(f"{error_message}: получен некорректный ответ")
+        if not response or 'result' not in response:
+            logger.warning(f'{error_message}: получен некорректный ответ')
             return {}
 
-        return response.get("result", {})
+        return response.get('result', {})
 
     async def _process_entity(self, data: dict[str, Any]) -> T | None:
         """Обработка данных сущности из API.
@@ -160,10 +160,10 @@ class BitrixReadMixin[T: BitrixEntity](BaseMixin):
         try:
             return self._entity_factory.from_bitrix(data)
         except Exception as e:
-            entity_id = data.get("ID", "неизвестный ID")
+            entity_id = data.get('ID', 'неизвестный ID')
             logger.error(
-                f"Ошибка при обработке сущности "
-                f"{self._format_entity_name(self._entity_factory)} "
-                f"с ID={entity_id}: {e}",
+                f'Ошибка при обработке сущности '
+                f'{self._format_entity_name(self._entity_factory)} '
+                f'с ID={entity_id}: {e}',
             )
             return None

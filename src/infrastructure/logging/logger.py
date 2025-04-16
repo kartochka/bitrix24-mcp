@@ -16,7 +16,7 @@ def _configure_logging() -> structlog.stdlib.BoundLogger:
 
     :returns: Настроенный structlog логгер
     """
-    logging.getLogger("fast_bitrix24").setLevel(logging.WARNING)
+    logging.getLogger('fast_bitrix24').setLevel(logging.WARNING)
 
     # Очищаем все хендлеры
     root_logger = logging.getLogger()
@@ -25,7 +25,7 @@ def _configure_logging() -> structlog.stdlib.BoundLogger:
         root_logger.removeHandler(handler)
 
     # Настраиваем файловый хендлер
-    log_file = Path("logs/app.log")
+    log_file = Path('logs/app.log')
     log_dir = log_file.parent
 
     if not log_dir.exists():
@@ -35,7 +35,7 @@ def _configure_logging() -> structlog.stdlib.BoundLogger:
         filename=log_file,
         maxBytes=10 * 1024 * 1024,  # 10 MB
         backupCount=5,
-        encoding="utf-8",
+        encoding='utf-8',
     )
     root_logger.addHandler(file_handler)
 
@@ -43,10 +43,10 @@ def _configure_logging() -> structlog.stdlib.BoundLogger:
         structlog.contextvars.merge_contextvars,
         structlog.stdlib.add_log_level,
         structlog.stdlib.add_logger_name,
-        structlog.processors.TimeStamper(fmt="iso"),
+        structlog.processors.TimeStamper(fmt='iso'),
     ]
 
-    if any("tests" in arg for arg in sys.argv):
+    if any('tests' in arg for arg in sys.argv):
         console_handler = logging.StreamHandler(sys.stdout)
         root_logger.addHandler(console_handler)
 

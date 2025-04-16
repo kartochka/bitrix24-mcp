@@ -12,6 +12,6 @@ from .bitrix import repository_factory
 from .mcp import server
 
 container = create_container(
-    parameters={"bitrix_webhook_url": SettingsManager.get().BITRIX_WEBHOOK_URL},
+    parameters={'bitrix_webhook_url': SettingsManager.get().BITRIX_WEBHOOK_URL},
     service_modules=[server, repository_factory, application],
 )

@@ -47,13 +47,13 @@ class BitrixRepositoryFactory:
         for repository in self._repository_classes:
             if repository.supports_entity_type(entity_type):
                 return repository
-        msg = f"Неизвестный тип сущности: {entity_type}"
+        msg = f'Неизвестный тип сущности: {entity_type}'
         raise ValueError(msg)
 
 
 @service
 def provide_repository_factory(
-    bitrix_webhook_url: Annotated[str, Inject(param="bitrix_webhook_url")],
+    bitrix_webhook_url: Annotated[str, Inject(param='bitrix_webhook_url')],
 ) -> BitrixRepositoryFactory:
     """Создание фабрики репозиториев Bitrix24.
 
@@ -61,7 +61,7 @@ def provide_repository_factory(
     :return: Экземпляр фабрики репозиториев
     """
     bitrix_client = Bitrix(bitrix_webhook_url)
-    logger.info("Инициализация фабрики репозиториев Bitrix24")
+    logger.info('Инициализация фабрики репозиториев Bitrix24')
     contact_repository = BitrixContactRepository(bitrix_client)
     return BitrixRepositoryFactory(
         [

@@ -29,8 +29,8 @@ class ContactService:
         :param bitrix_repository_factory: Фабрика репозиториев Bitrix24
         """
         self._contact_repository: BitrixContactRepository = cast(
-            "BitrixContactRepository",
-            bitrix_repository_factory.get_repository("contact"),
+            'BitrixContactRepository',
+            bitrix_repository_factory.get_repository('contact'),
         )
 
     async def get_contact_by_id(self, contact_id: int) -> Contact | None:
@@ -44,7 +44,7 @@ class ContactService:
     async def search_contacts(
         self,
         query: str,
-        search_type: str = "name",
+        search_type: str = 'name',
         limit: int = 10,
     ) -> list[Contact]:
         """Поиск контактов по различным критериям.
@@ -54,12 +54,12 @@ class ContactService:
         :param limit: Максимальное количество результатов
         :return: Список объектов контактов
         """
-        if search_type == "phone":
+        if search_type == 'phone':
             return await self._contact_repository.search_by_phone(
                 query,
                 limit,
             )
-        if search_type == "email":
+        if search_type == 'email':
             return await self._contact_repository.search_by_email(
                 query,
                 limit,
@@ -83,7 +83,7 @@ class ContactService:
         filter_params = {}
 
         if company_id:
-            filter_params["COMPANY_ID"] = company_id
+            filter_params['COMPANY_ID'] = company_id
 
         return await self._contact_repository.list_entities(
             filter_params=filter_params,

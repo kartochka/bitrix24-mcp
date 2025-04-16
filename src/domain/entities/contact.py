@@ -17,9 +17,9 @@ class Contact(BitrixEntity):
     Представляет доменную модель контакта со всеми необходимыми атрибутами.
     """
 
-    name: str = ""
-    last_name: str = ""
-    second_name: str = ""
+    name: str = ''
+    last_name: str = ''
+    second_name: str = ''
     email: list[BitrixMultiField] = field(default_factory=list)
     phone: list[BitrixMultiField] = field(default_factory=list)
     company_id: BitrixID | None = None
@@ -30,16 +30,16 @@ class Contact(BitrixEntity):
     date_modify: BitrixDateTime | None = None
 
     _bitrix_field_mapping: ClassVar[dict[str, str]] = {
-        "ID": "id",
-        "NAME": "name",
-        "LAST_NAME": "last_name",
-        "SECOND_NAME": "second_name",
-        "COMPANY_ID": "company_id",
-        "ASSIGNED_BY_ID": "assigned_by_id",
-        "CREATED_BY_ID": "created_by_id",
-        "MODIFY_BY_ID": "modified_by_id",
-        "DATE_CREATE": "date_create",
-        "DATE_MODIFY": "date_modify",
+        'ID': 'id',
+        'NAME': 'name',
+        'LAST_NAME': 'last_name',
+        'SECOND_NAME': 'second_name',
+        'COMPANY_ID': 'company_id',
+        'ASSIGNED_BY_ID': 'assigned_by_id',
+        'CREATED_BY_ID': 'created_by_id',
+        'MODIFY_BY_ID': 'modified_by_id',
+        'DATE_CREATE': 'date_create',
+        'DATE_MODIFY': 'date_modify',
     }
 
     @classmethod
@@ -51,14 +51,14 @@ class Contact(BitrixEntity):
         """
         contact = super().from_bitrix(data)
 
-        if "EMAIL" in data:
+        if 'EMAIL' in data:
             contact.email = [
-                BitrixMultiField.from_bitrix(email_data) for email_data in data["EMAIL"]
+                BitrixMultiField.from_bitrix(email_data) for email_data in data['EMAIL']
             ]
 
-        if "PHONE" in data:
+        if 'PHONE' in data:
             contact.phone = [
-                BitrixMultiField.from_bitrix(phone_data) for phone_data in data["PHONE"]
+                BitrixMultiField.from_bitrix(phone_data) for phone_data in data['PHONE']
             ]
 
         contact._convert_types()  # noqa: SLF001
@@ -98,7 +98,7 @@ class Contact(BitrixEntity):
             return None
 
         for email in self.email:
-            if email.value_type == "WORK":
+            if email.value_type == 'WORK':
                 return email.value
 
         return self.email[0].value
@@ -112,11 +112,11 @@ class Contact(BitrixEntity):
             return None
 
         for phone in self.phone:
-            if phone.value_type == "WORK":
+            if phone.value_type == 'WORK':
                 return phone.value
 
         for phone in self.phone:
-            if phone.value_type == "MOBILE":
+            if phone.value_type == 'MOBILE':
                 return phone.value
 
         return self.phone[0].value
@@ -137,4 +137,4 @@ class Contact(BitrixEntity):
         if self.second_name:
             parts.append(self.second_name)
 
-        return " ".join(parts) if parts else "Неизвестный контакт"
+        return ' '.join(parts) if parts else 'Неизвестный контакт'

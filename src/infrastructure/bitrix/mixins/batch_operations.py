@@ -20,7 +20,7 @@ class BitrixBatchOperationsMixin(BaseMixin):
     async def execute_batch(
         self,
         commands: dict[str, tuple[str, dict[str, Any]]],
-        error_message: str = "Ошибка при выполнении пакетного запроса",
+        error_message: str = 'Ошибка при выполнении пакетного запроса',
     ) -> dict[str, Any]:
         """Выполнение пакетного запроса.
 
@@ -34,35 +34,35 @@ class BitrixBatchOperationsMixin(BaseMixin):
 
             for name, (method, params) in commands.items():
                 batch_commands[name] = {
-                    "method": method,
-                    "params": params,
+                    'method': method,
+                    'params': params,
                 }
 
             response = await self._bitrix.call_batch(batch_commands)
 
-            if not response or "result" not in response:
-                logger.warning(f"{error_message}: получен некорректный ответ")
+            if not response or 'result' not in response:
+                logger.warning(f'{error_message}: получен некорректный ответ')
                 return {}
 
-            return response["result"] or {}
+            return response['result'] or {}
         except ValueError as e:
-            logger.error(f"{error_message}: некорректное значение: {e}")
+            logger.error(f'{error_message}: некорректное значение: {e}')
             return {}
         except KeyError as e:
-            logger.error(f"{error_message}: отсутствует ключ: {e}")
+            logger.error(f'{error_message}: отсутствует ключ: {e}')
             return {}
         except AttributeError as e:
-            logger.error(f"{error_message}: ошибка атрибута: {e}")
+            logger.error(f'{error_message}: ошибка атрибута: {e}')
             return {}
         except Exception as e:
-            logger.error(f"{error_message}: {e}")
+            logger.error(f'{error_message}: {e}')
             return {}
 
     async def batch_list(
         self,
         method: str,
         params: dict[str, Any],
-        error_message: str = "Ошибка при выполнении пакетного запроса списка",
+        error_message: str = 'Ошибка при выполнении пакетного запроса списка',
     ) -> list[dict[str, Any]]:
         """Получение списка элементов пакетными запросами.
 
@@ -77,9 +77,9 @@ class BitrixBatchOperationsMixin(BaseMixin):
                 method=method,
                 params=params,
             )
-            return cast("list[dict[str, Any]]", result) or []
+            return cast('list[dict[str, Any]]', result) or []
         except Exception as e:
-            logger.error(f"{error_message} через {method}: {e}")
+            logger.error(f'{error_message} через {method}: {e}')
             return []
 
     async def batch_get_by_ids[T](
@@ -87,7 +87,7 @@ class BitrixBatchOperationsMixin(BaseMixin):
         method: str,
         entity_ids: list[int],
         processor: Callable[[dict[str, Any]], T | None],
-        error_message: str = "Ошибка при пакетном получении по идентификаторам",
+        error_message: str = 'Ошибка при пакетном получении по идентификаторам',
     ) -> dict[int, T]:
         """Пакетное получение сущностей по идентификаторам.
 
@@ -104,7 +104,7 @@ class BitrixBatchOperationsMixin(BaseMixin):
             commands: dict[str, tuple[str, dict[str, Any]]] = {}
 
             for i, entity_id in enumerate(entity_ids):
-                commands[f"cmd{i}"] = (method, {"ID": entity_id})
+                commands[f'cmd{i}'] = (method, {'ID': entity_id})
 
             results = await self.execute_batch(
                 commands,
@@ -114,14 +114,14 @@ class BitrixBatchOperationsMixin(BaseMixin):
             entities: dict[int, T] = {}
 
             for i, entity_id in enumerate(entity_ids):
-                result = results.get(f"cmd{i}")
+                result = results.get(f'cmd{i}')
                 if result:
                     entity = processor(result)
                     if entity:
                         entities[entity_id] = entity
 
         except Exception as e:
-            logger.error(f"{error_message}: {e}")
+            logger.error(f'{error_message}: {e}')
             return {}
         else:
             return entities
@@ -130,7 +130,7 @@ class BitrixBatchOperationsMixin(BaseMixin):
         self,
         method: str,
         items: list[dict[str, Any]],
-        error_message: str = "Ошибка при пакетном создании",
+        error_message: str = 'Ошибка при пакетном создании',
     ) -> list[int | None]:
         """Пакетное создание элементов.
 
@@ -146,7 +146,7 @@ class BitrixBatchOperationsMixin(BaseMixin):
             commands: dict[str, tuple[str, dict[str, Any]]] = {}
 
             for i, item in enumerate(items):
-                commands[f"cmd{i}"] = (method, item)
+                commands[f'cmd{i}'] = (method, item)
 
             results = await self.execute_batch(
                 commands,
@@ -155,21 +155,21 @@ class BitrixBatchOperationsMixin(BaseMixin):
 
             ids: list[int | None] = []
             for i in range(len(items)):
-                cmd_key = f"cmd{i}"
+                cmd_key = f'cmd{i}'
                 if results.get(cmd_key):
                     try:
                         ids.append(int(results[cmd_key]))
                     except (ValueError, TypeError):
                         logger.error(
-                            f"Не удалось преобразовать ID={results[cmd_key]} "
-                            "к целому числу",
+                            f'Не удалось преобразовать ID={results[cmd_key]} '
+                            'к целому числу',
                         )
                         ids.append(None)
                 else:
                     ids.append(None)
 
         except Exception as e:
-            logger.error(f"{error_message} через {method}: {e}")
+            logger.error(f'{error_message} через {method}: {e}')
             return [None] * len(items)
         else:
             return ids

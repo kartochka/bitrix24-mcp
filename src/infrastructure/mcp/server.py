@@ -17,12 +17,12 @@ class BitrixMCPServer:
     Предоставляет общую функциональность для работы с Model Context Protocol.
     """
 
-    def __init__(self, server_name: str = "Bitrix24 MCP Server"):
+    def __init__(self, server_name: str = 'Bitrix24 MCP Server'):
         """Инициализация MCP сервера.
         :param server_name: Название сервера.
         """
         self._server = FastMCP(server_name)
-        logger.info(f"Создан MCP сервер: {server_name}")
+        logger.info(f'Создан MCP сервер: {server_name}')
 
     def add_tool(
         self,
@@ -37,8 +37,8 @@ class BitrixMCPServer:
         :return: Исходная функция.
         """
         tool_name = name or func.__name__
-        tool_description = description or func.__doc__ or f"Инструмент {tool_name}"
-        logger.info(f"Регистрация инструмента: {tool_name}")
+        tool_description = description or func.__doc__ or f'Инструмент {tool_name}'
+        logger.info(f'Регистрация инструмента: {tool_name}')
         return self._server.tool(
             name=tool_name,
             description=tool_description,
@@ -58,8 +58,8 @@ class BitrixMCPServer:
         :param description: Описание ресурса (опционально)
         :return: Исходная функция.
         """
-        resource_description = description or func.__doc__ or f"Ресурс {route}"
-        logger.info(f"Регистрация ресурса: {route}")
+        resource_description = description or func.__doc__ or f'Ресурс {route}'
+        logger.info(f'Регистрация ресурса: {route}')
         return self._server.resource(
             route,
             name=name,
@@ -79,8 +79,8 @@ class BitrixMCPServer:
         :return: Исходная функция.
         """
         prompt_name = name or func.__name__
-        prompt_description = description or func.__doc__ or f"Промпт {prompt_name}"
-        logger.info(f"Регистрация промпта: {prompt_name}")
+        prompt_description = description or func.__doc__ or f'Промпт {prompt_name}'
+        logger.info(f'Регистрация промпта: {prompt_name}')
         return self._server.prompt(
             name=prompt_name,
             description=prompt_description,

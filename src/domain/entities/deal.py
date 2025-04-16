@@ -23,11 +23,11 @@ class Deal(BitrixEntity):
     Представляет доменную модель сделки со всеми необходимыми атрибутами.
     """
 
-    title: str = ""
-    stage_id: BitrixStageID = ""
+    title: str = ''
+    stage_id: BitrixStageID = ''
     company_id: BitrixID | None = None
     opportunity: float = 0.0
-    currency_id: BitrixCurrencyID = ""
+    currency_id: BitrixCurrencyID = ''
     assigned_by_id: BitrixID | None = None
     created_by_id: BitrixID | None = None
     modified_by_id: BitrixID | None = None
@@ -37,18 +37,18 @@ class Deal(BitrixEntity):
     category_id: BitrixCategoryID = 0
 
     _bitrix_field_mapping: ClassVar[dict[str, str]] = {
-        "ID": "id",
-        "TITLE": "title",
-        "STAGE_ID": "stage_id",
-        "COMPANY_ID": "company_id",
-        "OPPORTUNITY": "opportunity",
-        "CURRENCY_ID": "currency_id",
-        "ASSIGNED_BY_ID": "assigned_by_id",
-        "CREATED_BY_ID": "created_by_id",
-        "MODIFY_BY_ID": "modified_by_id",
-        "DATE_CREATE": "date_create",
-        "DATE_MODIFY": "date_modify",
-        "CATEGORY_ID": "category_id",
+        'ID': 'id',
+        'TITLE': 'title',
+        'STAGE_ID': 'stage_id',
+        'COMPANY_ID': 'company_id',
+        'OPPORTUNITY': 'opportunity',
+        'CURRENCY_ID': 'currency_id',
+        'ASSIGNED_BY_ID': 'assigned_by_id',
+        'CREATED_BY_ID': 'created_by_id',
+        'MODIFY_BY_ID': 'modified_by_id',
+        'DATE_CREATE': 'date_create',
+        'DATE_MODIFY': 'date_modify',
+        'CATEGORY_ID': 'category_id',
     }
 
     @classmethod
@@ -107,7 +107,7 @@ class Deal(BitrixEntity):
 
         if isinstance(self.contact_ids, str):
             self.contact_ids = [
-                int(iid) for iid in self.contact_ids.split(",") if iid.isdigit()
+                int(iid) for iid in self.contact_ids.split(',') if iid.isdigit()
             ]
 
     def is_active(self) -> bool:
@@ -115,5 +115,5 @@ class Deal(BitrixEntity):
 
         :return: True, если сделка активна, иначе False
         """
-        final_stages = ["C14:LOSE", "C14:WON"]
+        final_stages = ['C14:LOSE', 'C14:WON']
         return self.stage_id not in final_stages

@@ -35,7 +35,7 @@ class BitrixFilterBuilderMixin(BaseMixin):
         if filter_logic:
             for field, operators in filter_logic.items():
                 for operator, value in operators.items():
-                    filter_key = f"{operator}{field}"
+                    filter_key = f'{operator}{field}'
                     result_filter[filter_key] = value
 
         return result_filter
@@ -55,7 +55,7 @@ class BitrixFilterBuilderMixin(BaseMixin):
         """
         if exact_match:
             return {field: query}
-        return {f"%{field}": query}
+        return {f'%{field}': query}
 
     @staticmethod
     def add_range_filter(
@@ -72,9 +72,9 @@ class BitrixFilterBuilderMixin(BaseMixin):
         """
         result = {}
         if min_value is not None:
-            result[f">={field}"] = min_value
+            result[f'>={field}'] = min_value
         if max_value is not None:
-            result[f"<={field}"] = max_value
+            result[f'<={field}'] = max_value
         return result
 
     @staticmethod
@@ -90,5 +90,5 @@ class BitrixFilterBuilderMixin(BaseMixin):
         :param exclude: Исключить значения (NOT IN)
         :returns: Фильтр для списка значений
         """
-        operator = "!@" if exclude else "@"
-        return {f"{operator}{field}": values}
+        operator = '!@' if exclude else '@'
+        return {f'{operator}{field}': values}
