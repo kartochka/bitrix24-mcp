@@ -49,7 +49,7 @@ def _configure_logging() -> structlog.stdlib.BoundLogger:
     if any("tests" in arg for arg in sys.argv):
         console_handler = logging.StreamHandler(sys.stdout)
         root_logger.addHandler(console_handler)
-        
+
         structlog.configure(
             processors=[
                 *shared_processors,

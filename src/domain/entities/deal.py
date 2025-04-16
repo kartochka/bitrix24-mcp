@@ -93,19 +93,13 @@ class Deal(BitrixEntity):
             except ValueError:
                 self.opportunity = 0.0
 
-        if (
-            isinstance(self.assigned_by_id, str)
-            and self.assigned_by_id.isdigit()
-        ):
+        if isinstance(self.assigned_by_id, str) and self.assigned_by_id.isdigit():
             self.assigned_by_id = int(self.assigned_by_id)
 
         if isinstance(self.created_by_id, str) and self.created_by_id.isdigit():
             self.created_by_id = int(self.created_by_id)
 
-        if (
-            isinstance(self.modified_by_id, str)
-            and self.modified_by_id.isdigit()
-        ):
+        if isinstance(self.modified_by_id, str) and self.modified_by_id.isdigit():
             self.modified_by_id = int(self.modified_by_id)
 
         if isinstance(self.category_id, str) and self.category_id.isdigit():

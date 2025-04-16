@@ -47,9 +47,7 @@ class BitrixPaginationMixin(BaseMixin):
             if start_param_name not in current_params:
                 current_params[start_param_name] = 0
 
-            total_items_to_fetch = (
-                float("inf") if max_items is None else max_items
-            )
+            total_items_to_fetch = float("inf") if max_items is None else max_items
 
             while len(all_results) < total_items_to_fetch:
                 response = await self._bitrix.call(method, current_params)

@@ -108,8 +108,7 @@ class BitrixRelationshipMixin(BaseMixin):
         """
         if not error_message:
             error_message = (
-                f"Ошибка при получении связанных элементов: "
-                f"сущность ID={entity_id}"
+                f"Ошибка при получении связанных элементов: сущность ID={entity_id}"
             )
 
         response = await self._safe_call(

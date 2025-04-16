@@ -151,9 +151,7 @@ class BitrixContactRepository(
             if not contacts_result:
                 return []
 
-            contact_ids = [
-                int(contact["CONTACT_ID"]) for contact in contacts_result
-            ]
+            contact_ids = [int(contact["CONTACT_ID"]) for contact in contacts_result]
 
             return await self._load_contacts_by_ids(contact_ids)
         except Exception as e:
@@ -197,9 +195,7 @@ class BitrixContactRepository(
         :param contact_id: Идентификатор контакта
         :return: Список данных о компаниях
         """
-        error_message = (
-            f"Ошибка при получении компаний контакта ID={contact_id}"
-        )
+        error_message = f"Ошибка при получении компаний контакта ID={contact_id}"
 
         try:
             return await self.get_related_items(

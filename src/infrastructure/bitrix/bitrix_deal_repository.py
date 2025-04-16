@@ -54,9 +54,7 @@ class BitrixDealRepository(
     _deal_contact_delete_method: ClassVar[str] = "crm.deal.contact.delete"
     _deal_contact_items_get_method: ClassVar[str] = "crm.deal.contact.items.get"
     _deal_category_list_method: ClassVar[str] = "crm.dealcategory.list"
-    _deal_category_stage_list_method: ClassVar[str] = (
-        "crm.dealcategory.stage.list"
-    )
+    _deal_category_stage_list_method: ClassVar[str] = "crm.dealcategory.stage.list"
 
     def __init__(
         self,
@@ -195,8 +193,7 @@ class BitrixDealRepository(
         :return: Успешность операции
         """
         error_message = (
-            f"Ошибка при добавлении контакта ID={contact_id} "
-            f"к сделке ID={deal_id}"
+            f"Ошибка при добавлении контакта ID={contact_id} к сделке ID={deal_id}"
         )
 
         try:
@@ -219,8 +216,7 @@ class BitrixDealRepository(
         :return: Успешность операции
         """
         error_message = (
-            f"Ошибка при удалении контакта ID={contact_id} "
-            f"из сделки ID={deal_id}"
+            f"Ошибка при удалении контакта ID={contact_id} из сделки ID={deal_id}"
         )
 
         try:
@@ -265,9 +261,7 @@ class BitrixDealRepository(
         :param category_id: Идентификатор категории
         :return: Словарь со стадиями сделок
         """
-        error_message = (
-            f"Ошибка при получении стадий для категории ID={category_id}"
-        )
+        error_message = f"Ошибка при получении стадий для категории ID={category_id}"
 
         try:
             response = await self._safe_call(

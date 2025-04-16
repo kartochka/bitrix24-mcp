@@ -53,14 +53,12 @@ class Contact(BitrixEntity):
 
         if "EMAIL" in data:
             contact.email = [
-                BitrixMultiField.from_bitrix(email_data)
-                for email_data in data["EMAIL"]
+                BitrixMultiField.from_bitrix(email_data) for email_data in data["EMAIL"]
             ]
 
         if "PHONE" in data:
             contact.phone = [
-                BitrixMultiField.from_bitrix(phone_data)
-                for phone_data in data["PHONE"]
+                BitrixMultiField.from_bitrix(phone_data) for phone_data in data["PHONE"]
             ]
 
         contact._convert_types()  # noqa: SLF001
@@ -82,19 +80,13 @@ class Contact(BitrixEntity):
             else:
                 self.company_id = None
 
-        if (
-            isinstance(self.assigned_by_id, str)
-            and self.assigned_by_id.isdigit()
-        ):
+        if isinstance(self.assigned_by_id, str) and self.assigned_by_id.isdigit():
             self.assigned_by_id = int(self.assigned_by_id)
 
         if isinstance(self.created_by_id, str) and self.created_by_id.isdigit():
             self.created_by_id = int(self.created_by_id)
 
-        if (
-            isinstance(self.modified_by_id, str)
-            and self.modified_by_id.isdigit()
-        ):
+        if isinstance(self.modified_by_id, str) and self.modified_by_id.isdigit():
             self.modified_by_id = int(self.modified_by_id)
 
     def get_primary_email(self) -> str | None:

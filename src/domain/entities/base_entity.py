@@ -40,11 +40,7 @@ class BitrixEntity:
 
         additional_fields = {
             **additional_fields,
-            **{
-                k: v
-                for k, v in data.items()
-                if k not in cls._bitrix_field_mapping
-            },
+            **{k: v for k, v in data.items() if k not in cls._bitrix_field_mapping},
         }
 
         entity_data["additional_fields"] = additional_fields

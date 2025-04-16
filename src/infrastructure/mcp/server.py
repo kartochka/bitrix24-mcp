@@ -37,9 +37,7 @@ class BitrixMCPServer:
         :return: Исходная функция.
         """
         tool_name = name or func.__name__
-        tool_description = (
-            description or func.__doc__ or f"Инструмент {tool_name}"
-        )
+        tool_description = description or func.__doc__ or f"Инструмент {tool_name}"
         logger.info(f"Регистрация инструмента: {tool_name}")
         return self._server.tool(
             name=tool_name,
@@ -81,9 +79,7 @@ class BitrixMCPServer:
         :return: Исходная функция.
         """
         prompt_name = name or func.__name__
-        prompt_description = (
-            description or func.__doc__ or f"Промпт {prompt_name}"
-        )
+        prompt_description = description or func.__doc__ or f"Промпт {prompt_name}"
         logger.info(f"Регистрация промпта: {prompt_name}")
         return self._server.prompt(
             name=prompt_name,
