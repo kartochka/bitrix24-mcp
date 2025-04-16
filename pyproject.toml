@@ -12,10 +12,10 @@ dependencies = [
 ]
 
 [project.scripts]
-mcp-server-b24 = "app.presentation.mcp:main"
+mcp-server-b24 = "src.presentation.mcp:main"
 
 [tool.hatch.build.targets.wheel]
-packages = ["app"]
+packages = ["src"]
 
 [build-system]
 requires = ["hatchling"]
